@@ -34,7 +34,7 @@ public class CervezaController {
         Optional<Cerveza> cerveza = cervezaService.findById(id);
 
         if (!cerveza.isPresent()){
-            response.put("mensaje", "el cliente con el ID:" +id.toString()+ " no se encuentra en la base de datos");
+            response.put("mensaje", "No se pudo encontrar la cerveza con el ID:" +id.toString()+ " en la base de datos");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
