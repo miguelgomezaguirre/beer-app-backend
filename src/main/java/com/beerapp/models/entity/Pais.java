@@ -3,6 +3,7 @@ package com.beerapp.models.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,13 +30,6 @@ public class Pais {
     @Temporal(TemporalType.DATE)
     @Column(name = "created_at")
     private Date createdAt;
-
-    @OneToMany(
-            mappedBy = "pais",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private Collection<Fabricante> fabricantes = new ArrayList<>();
 
     @PrePersist
     public void prePersist(){
@@ -73,13 +67,4 @@ public class Pais {
         this.createdAt = createdAt;
     }
 
-    public void addFabricante(Fabricante fabricante) {
-        fabricantes.add(fabricante);
-        fabricante.setPais(this);
-    }
-
-    public void removeCerveza(Fabricante fabricante) {
-        fabricantes.remove(fabricante);
-        fabricante.setPais(null);
-    }
 }

@@ -13,6 +13,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -24,27 +25,19 @@ public class Fabricante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nombre;
     @Temporal(TemporalType.DATE)
     @Column(name = "created_at")
     private Date createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Pais pais;
-
-    @OneToMany(
-            mappedBy = "fabricante",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private Collection<Cerveza> cervezas = new ArrayList<>();
 
     @PrePersist
     public void prePersist(){
         createdAt = new Date();
     }
-
 
     public Long getId() {
         return id;
@@ -78,13 +71,4 @@ public class Fabricante {
         this.createdAt = createdAt;
     }
 
-    public void addCerveza(Cerveza cerveza) {
-        cervezas.add(cerveza);
-        cerveza.setFabricante(this);
-    }
-
-    public void removeCerveza(Cerveza cerveza) {
-        cervezas.remove(cerveza);
-        cerveza.setFabricante(null);
-    }
 }

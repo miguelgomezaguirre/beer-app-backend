@@ -30,7 +30,7 @@ public class Cerveza {
     private String nombre;
     private String descripcion;
     private double precio;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Fabricante fabricante;
     @Temporal(TemporalType.DATE)
     @Column(name = "created_at")

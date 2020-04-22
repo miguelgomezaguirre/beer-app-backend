@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class PaisServiceImpl implements IPaisService {
@@ -22,5 +23,10 @@ public class PaisServiceImpl implements IPaisService {
     @Override
     public Pais save(Pais pais) {
         return paisDao.save(pais);
+    }
+
+    @Override
+    public Optional<Pais> findById(Long id) {
+        return paisDao.findById(id);
     }
 }
