@@ -32,15 +32,8 @@ public class PaisController {
     @PostMapping
     public ResponseEntity<?> save(@Valid @RequestBody Pais pais) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            Pais paisNew = paisService.save(pais);
-            response.put("pais", paisNew);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (DataAccessException e) {
-            response.put("mensaje", "no se pudo insertar el pais");
-            response.put("error", e.getMessage().concat(":").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        response.put("pais", paisService.save(pais));
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 }

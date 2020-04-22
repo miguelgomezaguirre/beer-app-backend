@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -26,12 +27,16 @@ public class Cerveza {
     private Long id;
 
     @NotEmpty
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nombre;
+
     private String descripcion;
     private double precio;
+
+    @NotNull(message = "fabricante requerido")
     @ManyToOne(fetch = FetchType.EAGER)
     private Fabricante fabricante;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "created_at")
     private Date createdAt;

@@ -27,36 +27,16 @@ public class FabricanteController {
     @Autowired
     private IFabricanteService fabricanteService;
 
-    @Autowired
-    private IPaisService paisService;
-
     @GetMapping
     public Collection<Fabricante> getAll() {
         return fabricanteService.findAll();
     }
 
     @PostMapping
-        public ResponseEntity<?> save(@Valid @RequestBody Fabricante fabricante) {
+    public ResponseEntity<?> save(@Valid @RequestBody Fabricante fabricante) {
         Map<String, Object> response = new HashMap<>();
-
-        Optional<Pais> pais = paisService.findById(fabricante.getPais().getId());
-
-        if (!pais.isPresent()) {
-            response.put("mensaje", "no se encontro el pais");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-
-        try{
-            fabricante.setPais(pais.get());
-            Fabricante fabricanteNew = fabricanteService.save(fabricante);
-            response.put("fabricante", fabricanteNew);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (Exception e) {
-            response.put("mensaje", "no se pudo insertar el fabricante");
-            response.put("error", e.getMessage().concat(":").concat(e.getCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+        response.put("fabricante", fabricanteService.save(fabricante));
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 }

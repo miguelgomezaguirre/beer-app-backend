@@ -1,6 +1,7 @@
 package com.beerapp.services.implementations;
 
 import com.beerapp.models.dao.ICervezaDao;
+import com.beerapp.models.dao.IFabricanteDao;
 import com.beerapp.models.entity.Cerveza;
 import com.beerapp.services.interfaces.ICervezaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class CervezaServiceImpl implements ICervezaService {
     @Autowired
     private ICervezaDao cervezaDao;
 
+    @Autowired
+    private IFabricanteDao fabricanteDao;
+
     @Override
     @Transactional(readOnly = true)
     public Collection<Cerveza> findAll() {
@@ -30,6 +34,11 @@ public class CervezaServiceImpl implements ICervezaService {
 
     @Override
     public Cerveza save(Cerveza cerveza) {
+        fabricanteDao.findById(cerveza.getFabricante().getId())
+                .map(fabricante -> {
+                    cerveza.setFabricante(fabricante);
+                    return cerveza;
+                }).orElseThrow(() -> new RuntimeException("no se encontro el Fabricante para el ID dado"));
         return cervezaDao.save(cerveza);
     }
 

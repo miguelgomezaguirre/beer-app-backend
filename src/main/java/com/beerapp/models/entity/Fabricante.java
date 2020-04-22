@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -31,6 +32,7 @@ public class Fabricante {
     @Column(name = "created_at")
     private Date createdAt;
 
+    @NotNull(message = "Pais Requerido")
     @ManyToOne(fetch = FetchType.EAGER)
     private Pais pais;
 
